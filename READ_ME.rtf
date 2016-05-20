@@ -1,0 +1,38 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fmodern\fcharset0 Courier;\f1\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 Mission kMo\
+\
+Descriptif du code Java\
+La page centrale s\'92appelle Fenetre.java, c\'92est elle qui affiche le premier panneau de connexion (LoginPanel).\
+Chaque panneau se divise en un header (facultatif) et un corps de page, il correspond \'e0 une nouvelle fen\'eatre dans l\'92application.\
+Tous les \'e9v\'e8nements (clic sur un bouton, etc.) sont g\'e9r\'e9s depuis Fenetre.java via des Listeners, qui traitent l\'92information recueillie depuis les panneaux et pr\'e9parent et appellent les panneaux prochains.\
+A la fin de Fenetre.java on trouve les fonctions d\'92appel \'e0 la BDD et au LDAP.\
+\
+Le programme java interagit avec une base de donn\'e9es, ici postgresql (qu\'92il faudra certainement modifier pour fonctionner sur le Raspberry Pi), ainsi qu\'92avec le serveur LDAP (annuaire) de l\'92entreprise cliente. Les donn\'e9es recherch\'e9es sont les utilisateurs (tant ceux enregistr\'e9s sur la BDD que sur le LDAP), les mat\'e9riels de la salle de bureau (sur la BDD) et les diff\'e9rents param\'e8tres (dont les informations de login au LDAP)\
+\
+A faire :\
+compte admin : mdp changeable\
+title fenetre \
+param\'e9trage via fichier de conf\
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\pardirnatural
+
+\f1\fs36 \cf0 > configurer internet\
+> installer la bdd\
+> rapport mail parametrable\
+> centraliser les variables (+ admin id variables)\
+> adapter clavier virtuel\
+> signaler mat\'e9riel d\'e9fectueux \
+> voir avec les piles vol\'e9es (mat\'e9riel sans pile ? Poids pile variable)\
+> poids - si aucune combinaison de masse ne convient ?\
+> Pop-up pour signaler que le l\'92oubli sera consign\'e9 (nom manquant, date, accessoires manquants)\
+> Ou Pop-Up pour indiquer fin de r\'e9union RAS\
+> Adresse mail pour tous  & rapport en cas de pb (+ factotum)\
+> fiabilit\'e9 du raspberry et arduino en ppm (fiche qualit\'e9 et constructeur sur les composants clefs)\
+\
+}
