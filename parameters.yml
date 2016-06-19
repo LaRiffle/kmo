@@ -1,0 +1,94 @@
+sql:
+    url: "jdbc:postgresql://localhost:5432/Ecole"
+    user: "postgres"
+    password: "namibia"
+text:
+    admin:
+        header: Administration
+    adminBoard:
+        device: Gérer le matériel
+        account: Gérer les comptes
+        settings: Réglages
+        logs: Historique
+    bye:
+        header: Au revoir
+        mail1: Des objets n'ont pas été réintégrés à la fin de la session de
+        mail2: Cordialement.
+        mail3: Rapport de fermeture de session avec objet manquant
+        logout: Aller à la page de connexion
+        signal: Signaler du matériel défectueux<br>ou des piles à changer
+    close:
+        header: Clôture de la séance
+        info: Accessoires en place
+        close: Fermer et verrouiller<br>le Top Access
+        retry: J'ai rangé les <br> accessoires manquants
+        missing: Accessoires manquants
+        closeForce: Fermer tout de même<br>Verrouiller le Top Access
+    configureLDAP:
+        title: Les paramètres de connexion
+        save: Enregistrer
+        done: (Enregistré)
+    login:
+        firm: kMO
+        heading: Connexion
+        wrongID: Identifiants invalides
+        login: Identifiants
+        password: Mot de passe
+        connexion: Connexion
+        temoin: Passage de témoin
+    logs:
+        title: Relevé d'activité
+    newDevice:
+        title: Ajout de matériel
+        info: Déposez le nouveau matériel
+        info2: dans le coffret
+        state: Pas de puce détectée
+        refresh: Rafraîchir
+        save: Enregistrer
+        add: Valider le matériel
+    open:
+        heading: Bienvenue
+        logout: Déconnexion
+        state: Etat du matériel
+        missing: Manquant(s)
+        nomissing: Aucun accessoire manquant
+        open: Déverrouiller le Top Access
+    run:
+        header: Etat des accessoires
+        title: Etat des accessoires
+        finish: Clôturer >
+        change: Changer d'utilisateur
+        close: Clôturer la séance
+        device: Matériel
+        state: Etat
+    settings:
+        title: Les paramètres administrateurs
+        checkMail: Recevoir des rapports par mail
+        name:
+            admin_email: Mail administateur
+            admin_email_password: Mot de passe mail
+            admin_password: Mdp de la session
+        mail1: Vous avez changé de mot de passe de session kMO
+        mail2: Nouveau mot de passe kMo
+        save: Enregistrer
+    showAccount:
+        backward: Retour
+        add: Ajouter
+        conf: Configurer LDAP
+        deleted: Le compte a été supprimé
+        login: Login
+        password: Mot de passe
+        modify: Modifier
+        delete: Supprimer
+        erased: Supprimé
+    showDevice:
+        modify: Modifier le matériel
+        save: Enregistrer
+        delete: Suppr
+        add: Ajouter un matériel
+        deleted: Supprimé
+    signal:
+        header: Signaler un problème
+        mail: (kMo) Rapport d'utilisateur de la plateforme
+        text: Faîtes nous part de vos remarques
+        send: Envoyer
