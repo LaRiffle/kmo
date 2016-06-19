@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
+import kmo.Translator;
  
 public class Panneau extends JPanel {
   
@@ -14,21 +15,24 @@ public class Panneau extends JPanel {
   private JLabel textRight = new JLabel();
   private JPanel headingLeft = new JPanel(); // Les cadres pour harmoniser la mise en page
   private JPanel headingRight = new JPanel();
+  private static Translator trans;
   
   public Panneau(){
+      trans = new Translator();
+      trans.setContext("text.login");
       this.setLayout(new BorderLayout()); // On définit un style de mise en page simple (plus que GridBagLayout())
       Font police = new Font("Arial", Font.PLAIN, 50); // La police est précisée
-      textLeft = new JLabel("kMo"); // On remplit la zone de texte
+      textLeft = new JLabel(trans.get("firm")); // On remplit la zone de texte
       textLeft.setFont(police); // avec la bonne police
       textLeft.setHorizontalAlignment(JLabel.RIGHT); // On la fige à droite
-      textLeft.setPreferredSize(new Dimension(100, 100)); // dans un cadre de bonne taille
+      textLeft.setPreferredSize(new Dimension(170, 100)); // dans un cadre de bonne taille
       textLeft.setForeground(Color.white); // et avec la bonne couleur
-      textRight = new JLabel("    Connexion"); // Idem (les espaces facilitent la mise en page)
+      textRight = new JLabel("    "+trans.get("heading")); // Idem (les espaces facilitent la mise en page)
       textRight.setFont(police);
       textRight.setHorizontalAlignment(JLabel.LEFT);
       textRight.setPreferredSize(new Dimension(400, 100));
       textRight.setForeground(Color.white);
-      headingLeft.setPreferredSize(new Dimension(150, 100)); // On fixe la taille des cadres et leur couleur de fond
+      headingLeft.setPreferredSize(new Dimension(180, 100)); // On fixe la taille des cadres et leur couleur de fond
       headingLeft.setBackground(Color.black);
       headingRight.setPreferredSize(new Dimension(437, 100));
       headingRight.setBackground(Color.black);

@@ -20,21 +20,27 @@ import javax.swing.JLabel;
  */
 public class ClosePanel extends JPanel {
     
-    private JButton jbClose = new JButton("<html>Fermer et verrouiller<br>le Top Access</html>");
-    private JButton jbRetry = new JButton("<html>J'ai rangé les <br> accessoires manquants<html>");
-    private JLabel jlInfo = new JLabel("<html><u>Accessoires en place</u></html>", 0);
+    private JButton jbClose;
+    private JButton jbRetry;
+    private JLabel jlInfo;
     
     private JLabel[] jlName;
+    private static Translator trans;
     
 public ClosePanel(String[][] data) { // data = missingDevices
+        trans = new Translator();
+        trans.setContext("text.close");
         JPanel closePanel = new JPanel();
         JPanel infoPanel = new JPanel();
         Font police = new Font("Arial", Font.PLAIN, 30);
+        
+        jlInfo = new JLabel("<html><u>"+trans.get("info")+"</u></html>", 0);
         jlInfo.setFont(police);
         jlInfo.setHorizontalAlignment(JLabel.LEFT);
-       
+        jbClose = new JButton("<html>"+trans.get("close")+"</html>");
         jbClose.setFont(police);
         jbClose.setPreferredSize(new Dimension(440, 100));
+        jbRetry = new JButton("<html>"+trans.get("retry")+"<html>");
         jbRetry.setFont(police);
         jbRetry.setPreferredSize(new Dimension(440, 100));
         
@@ -58,7 +64,7 @@ public ClosePanel(String[][] data) { // data = missingDevices
         gbc1.gridwidth = 1;
 
         if(data.length != 0) {
-            jlInfo.setText("<html><u>Accessoires manquants</u></html>");
+            jlInfo.setText("<html><u>"+trans.get("missing")+"</u></html>");
         }
         //Cette instruction informe le layout que c'est une fin de ligne
         gbc1.gridwidth = GridBagConstraints.REMAINDER;
@@ -95,7 +101,7 @@ public ClosePanel(String[][] data) { // data = missingDevices
         gbc.gridwidth = 1;
 
         if(data.length != 0){
-            jbClose.setText("<html>Fermer tout de même<br>Verrouiller le Top Access<html>");
+            jbClose.setText("<html>"+trans.get("closeForce")+"<html>");
             closePanel.setLayout(new GridLayout(2, 1));
             closePanel.add(jbRetry);
             closePanel.add(jbClose);

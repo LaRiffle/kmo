@@ -18,16 +18,21 @@ import javax.swing.JPanel;
  * @author Tleffyr
  */
 public class ByePanel extends JPanel {
-    private JButton jbSignal = new JButton("<html>Signaler du matériel défectueux<br>ou des piles à changer</html>");
-    private JButton jbLogout = new JButton("Aller à la page de connexion");
+    private JButton jbSignal;
+    private JButton jbLogout;
+    private static Translator trans;
     
     public ByePanel() {
+        trans = new Translator();
+        trans.setContext("text.bye");
         JPanel signalPanel = new JPanel();
         JPanel logoutPanel = new JPanel();
         Font police = new Font("Arial", Font.PLAIN, 30);
     
+        jbLogout = new JButton(trans.get("logout"));
         jbLogout.setFont(police);
         jbLogout.setPreferredSize(new Dimension(550, 60));
+        jbSignal = new JButton("<html>"+trans.get("signal")+"</html>");
         jbSignal.setFont(police);
         jbSignal.setPreferredSize(new Dimension(550, 100));
 

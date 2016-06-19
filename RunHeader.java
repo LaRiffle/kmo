@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
  
-public class ShowAccountHeader extends JPanel {
+public class RunHeader extends JPanel {
   
   private JLabel textLeft = new JLabel();
   private JButton textRight = new JButton();
@@ -20,37 +20,34 @@ public class ShowAccountHeader extends JPanel {
   private JPanel headingRight = new JPanel();
   private static Translator trans;
   
-  public ShowAccountHeader(String title){
+  public RunHeader(){
       trans = new Translator();
-      trans.setContext("text.showAccount");
+      trans.setContext("text.run");
       this.setLayout(new BorderLayout());
       Font police = new Font("Arial", Font.PLAIN, 50);
       Font police2 = new Font("Arial", Font.PLAIN, 24);
-      textLeft = new JLabel(title);
+      textLeft = new JLabel(trans.get("title"));
       textLeft.setFont(police);
       //textLeft.setHorizontalAlignment(JLabel.RIGHT);
-      textLeft.setPreferredSize(new Dimension(320, 100));
+      textLeft.setPreferredSize(new Dimension(540, 100));
       textLeft.setForeground(Color.white);  
-      textRight = new JButton(trans.get("backward"));
+      textRight = new JButton(trans.get("finish"));
       textRight.setFont(police2);
       //textRight.setHorizontalAlignment(JLabel.LEFT);
-      textRight.setPreferredSize(new Dimension(160, 50));
+      textRight.setPreferredSize(new Dimension(195, 50));
       //textRight.setForeground(Color.white);
-      headingLeft.setPreferredSize(new Dimension(350, 100));
+      headingLeft.setPreferredSize(new Dimension(550, 100));
       headingLeft.setBackground(Color.black);
-      headingRight.setPreferredSize(new Dimension(180, 100));
+      headingRight.setPreferredSize(new Dimension(200, 100));
       headingRight.setBackground(Color.black);
       //headingLeft.setBorder(BorderFactory.createLineBorder(Color.red));
       //headingRight.setBorder(BorderFactory.createLineBorder(Color.red));
       headingLeft.add(textLeft);
-      headingRight.add(textRight);
+      //headingRight.add(textRight);
       this.add(headingLeft, BorderLayout.WEST);
-      this.add(headingRight, BorderLayout.EAST);
+      //this.add(headingRight, BorderLayout.EAST);
       //this.add(ecran2);
   }
-  public JButton getJbRetour(){
-        return textRight;
-    }
   public void paintComponent(Graphics g){
       
     

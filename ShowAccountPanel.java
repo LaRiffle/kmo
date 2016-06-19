@@ -29,36 +29,44 @@ import javax.swing.JTextField;
  */
 public class ShowAccountPanel extends JPanel {
     
-    private JButton jbConf = new JButton("Configurer LDAP");
+    private JButton jbConf;
     //private JLabel jlInfo = new JLabel("<html><table><tr><td>Nom</td><td>Jacques</td><td>Suppr.</td></tr><tr><td>Nom</td><td>Modifier</td><td>Suppr.</td></tr></table></html>", 0);
     
-    private String labelLogin = "Login";
-    private String labelPass = "Mot de passe";
+    private String labelLogin;
+    private String labelPass;
 
     private JTextField jtfLogin = new JTextField(labelLogin);
     private JTextField jtfPass = new JTextField(labelPass);
-    private JButton jbAdd = new JButton("Ajouter");
-    private JLabel jlLabel = new JLabel("Le compte a été supprimé");
+    private JButton jbAdd;
+    private JLabel jlLabel;
     
     private JLabel[] jlLogin;
     private JLabel[] jlPassword;
     private JButton[] jbMod;
     private JButton[] jbDel;
     private JPanel panel = new JPanel();
+    private static Translator trans;
         
     public ShowAccountPanel(String[][] data) {
+        trans = new Translator();
+        trans.setContext("text.showAccount");
         Font police = new Font("Arial", Font.PLAIN, 30);
         Color labelColor = new Color (128, 128, 128);
 	jtfLogin.setFont(police);
         jtfLogin.setForeground(labelColor);
         jtfPass.setFont(police);
         jtfPass.setForeground(labelColor);
+        jbAdd = new JButton(trans.get("add"));
         jbAdd.setFont(police);
+        jbConf = new JButton(trans.get("conf"));
         jbConf.setFont(police);
         jtfLogin.setPreferredSize(new Dimension(150, 50));
         jtfPass.setPreferredSize(new Dimension(150, 50));
         jbAdd.setPreferredSize(new Dimension(150, 50));
         jbConf.setPreferredSize(new Dimension(450, 50));
+        jlLabel = new JLabel(trans.get("deleted"));
+        labelLogin = trans.get("login");
+        labelPass = trans.get("password");
         
         
         this.setPreferredSize(new Dimension(500, 500));
@@ -105,8 +113,8 @@ public class ShowAccountPanel extends JPanel {
             
             jlLogin[i] = new JLabel();
             jlPassword[i] = new JLabel();
-            jbMod[i] = new JButton("Modifier");
-            jbDel[i] = new JButton("Supprimer");
+            jbMod[i] = new JButton(trans.get("modify"));
+            jbDel[i] = new JButton(trans.get("delete"));
             jlLogin[i].setPreferredSize(new Dimension(150, 50));
             jlPassword[i].setPreferredSize(new Dimension(150, 50));
             jbMod[i].setPreferredSize(new Dimension(150, 50));
@@ -214,7 +222,7 @@ public class ShowAccountPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             System.out.print("Deleting "+this.user+"...");
             //jlLogin[id].setVisible(false);
-            jlPassword[id].setText("Supprimé");
+            jlPassword[id].setText(trans.get("erased"));
             jbDel[id].setVisible(false);
             
             /*jlLabel.setText("whala dhkdshdklnillhhl");

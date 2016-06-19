@@ -21,26 +21,32 @@ import javax.swing.JTable;
  */
 public class RunPanel extends JPanel {
     
-    private JButton jbOpen = new JButton("Changer d'utilisateur");
-    private JButton jbClose = new JButton("Clôturer la séance");
+    private JButton jbOpen;
+    private JButton jbClose;
     private String  title[] = {"Matériel", "Etat"};
     private JTable tableau;
     
     private JLabel[] jlName;
     private JLabel[] jlStatus;
     private JPanel panel = new JPanel();
+    private static Translator trans;
     
 public RunPanel(String[][] data) {
+        trans = new Translator();
+        trans.setContext("text.run");
         JPanel temoinPanel = new JPanel();
         JPanel closePanel = new JPanel();
         Font police = new Font("Arial", Font.PLAIN, 30);
-       
+        jbOpen = new JButton(trans.get("change"));
         jbOpen.setFont(police);
         jbOpen.setPreferredSize(new Dimension(440, 60));
         temoinPanel.add(jbOpen);
+        jbClose = new JButton(trans.get("close"));
         jbClose.setFont(police);
         jbClose.setPreferredSize(new Dimension(440, 60));
         closePanel.add(jbClose);
+        title[0] = trans.get("device"); // traduction a posteriori
+        title[1] = trans.get("state");
         
         this.setPreferredSize(new Dimension(500, 440));
         /*

@@ -26,21 +26,26 @@ import javax.swing.JPasswordField;
  */
 public class OpenPanel extends JPanel {
     
-    private JButton jbOpen = new JButton("Déverrouiller le Top Access");
-    private JLabel jlInfo = new JLabel("<html><u>Etat du matériel</u></html>", 0);
-    private JLabel jlInfo1 = new JLabel("Manquants : ", 0);
+    private JButton jbOpen;
+    private JLabel jlInfo;
+    private JLabel jlInfo1;
     
     private JLabel[] jlName;
+    private static Translator trans;
     
 public OpenPanel(String[][] data) { // data = missingDevices
+        trans = new Translator();
+        trans.setContext("text.open");
         JPanel openPanel = new JPanel();
         JPanel infoPanel = new JPanel();
         Font police = new Font("Arial", Font.PLAIN, 30);
+        jlInfo = new JLabel("<html><u>"+trans.get("state")+"</u></html>", 0);
         jlInfo.setFont(police);
         jlInfo.setHorizontalAlignment(JLabel.LEFT);
+        jlInfo1 = new JLabel(trans.get("missing")+" : ", 0);
         jlInfo1.setFont(police);
         jlInfo1.setHorizontalAlignment(JLabel.LEFT);
-       
+        jbOpen = new JButton(trans.get("open"));
         jbOpen.setFont(police);
         jbOpen.setPreferredSize(new Dimension(440, 60));
 
@@ -73,7 +78,7 @@ public OpenPanel(String[][] data) { // data = missingDevices
         infoPanel.add(jlInfo, gbc1);
 
         if(data.length == 0) {
-            jlInfo1.setText("Aucun accessoire manquant");
+            jlInfo1.setText(trans.get("nomissing"));
         }
         gbc1.gridy = 1;
         gbc1.gridwidth = GridBagConstraints.REMAINDER;

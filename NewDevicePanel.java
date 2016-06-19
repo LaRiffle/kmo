@@ -29,23 +29,26 @@ import javax.swing.JTextField;
  */
 public class NewDevicePanel extends JPanel {
     
-    private JButton jbAdd = new JButton("Valider le matériel");
+    private JButton jbAdd;
    
-    private JLabel jlTitle = new JLabel("Ajout de matériel");
+    private JLabel jlTitle;
     
-    private JLabel jlInfo = new JLabel("Approchez la puce du capteur");
-    private JLabel jlInfo2 = new JLabel("situé dans le Core");
-    private JLabel jlState = new JLabel("Pas de puce détectée");
-    private JButton jbRefresh = new JButton("Rafraîchir");
+    private JLabel jlInfo;
+    private JLabel jlInfo2;
+    private JLabel jlState;
+    private JButton jbRefresh;
     private JPanel panel = new JPanel();
     private JPanel statePanel =  new JPanel();
     
     private JPanel markerPanel = new JPanel();
     private JTextField jtfName = new JTextField();
     private JLabel jlMarker;
-    private JButton jbSave = new JButton("Enregistrer");
+    private JButton jbSave;
+    private static Translator trans;
         
     public NewDevicePanel() {
+        trans = new Translator();
+        trans.setContext("text.newDevice");
         int height = 40;
         int widthMarker = 120;
         int widthName = 170;
@@ -53,12 +56,17 @@ public class NewDevicePanel extends JPanel {
         int widthDel = 80;
         Font police = new Font("Arial", Font.PLAIN, 24);
         Font policeTitle = new Font("Arial", Font.PLAIN, 30);
+        jlTitle = new JLabel(trans.get("title"));
 	jlTitle.setFont(policeTitle);
         Font policeLittle = new Font("Arial", Font.PLAIN, 18);
         //Color linkColor = new Color (0, 0, 255);
+        jlInfo = new JLabel(trans.get("info"));
         jlInfo.setFont(police);
+        jlInfo2 = new JLabel(trans.get("info2"));
         jlInfo2.setFont(police);
+        jlState = new JLabel(trans.get("state"));
         jlState.setFont(police);
+        jbRefresh = new JButton(trans.get("refresh"));
         jbRefresh.setFont(policeLittle);
         //jlRefresh.setForeground(linkColor);
         JPanel titlePanel =  new JPanel();
@@ -75,6 +83,7 @@ public class NewDevicePanel extends JPanel {
             jlMarker = new JLabel(String.valueOf(Math.random()).substring(0,6));
             jlMarker.setFont(police);
             jtfName.setFont(police);
+            jbSave = new JButton(trans.get("save"));
             jbSave.setFont(police);
             markerPanel.add(jlMarker);
             jtfName.setPreferredSize(new Dimension(150, height));
@@ -99,6 +108,7 @@ public class NewDevicePanel extends JPanel {
             gbc.gridwidth = GridBagConstraints.REMAINDER;
             statePanel.add(jbRefresh, gbc);
 
+            jbAdd = new JButton(trans.get("add"));
             jbAdd.setFont(police);
             jbAdd.setPreferredSize(new Dimension(450, 50));
 

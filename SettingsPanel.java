@@ -5,43 +5,44 @@
  */
 package kmo;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JPasswordField;
+import javax.swing.JCheckBox;
+
 
 /**
  *
  * @author Tleffyr
  */
-public class ConfigureLDAPPanel extends JPanel {
+public class SettingsPanel extends JPanel {
     
     private JLabel jlTitle;
     private JTextField[] jtfValue;
     private JLabel[] jlName;
     private JButton[] jbSave;
+    private JCheckBox checkMail;
     private static Translator trans;
     
-    public ConfigureLDAPPanel(String[][] data) {
+    public SettingsPanel(String[][] data) {
         trans = new Translator();
-        trans.setContext("text.configureLDAP");
+        trans.setContext("text.settings");
         int height = 35;
         int width = 120;
         int widthValue = 250;
-        int widthName = 80;
+        int widthName = 180;
         Font police = new Font("Arial", Font.PLAIN, 18);
         Font police2 = new Font("Arial", Font.PLAIN, 24);
         jlTitle = new JLabel(trans.get("title"));
@@ -57,6 +58,11 @@ public class ConfigureLDAPPanel extends JPanel {
         jtfValue = new JTextField[data.length];
         jbSave = new JButton[data.length];
         
+        JPanel checkMailPanel = new JPanel();
+        checkMail = new JCheckBox(trans.get("checkMail"));
+        checkMail.setFont(police);
+        checkMailPanel.setPreferredSize(new Dimension(550, height));
+        
         panel.setLayout(new GridBagLayout());		
         //L'objet servant à positionner les composants
         GridBagConstraints gbc = new GridBagConstraints();
@@ -68,8 +74,12 @@ public class ConfigureLDAPPanel extends JPanel {
         panel.add(titlePanel, gbc);
         
         int i;
+        String mailEnabled ="";
         System.out.println("Printing parameters...");
         for(i = 0; i<data.length; i++){
+            if(data[i][0].equals("sendMail")){
+                mailEnabled = data[i][1];      
+            }else {
             jlName[i] = new JLabel();
             jtfValue[i] = new JTextField();
             jbSave[i] = new JButton(trans.get("save"));
@@ -87,7 +97,7 @@ public class ConfigureLDAPPanel extends JPanel {
             gbc.gridwidth = 1;
             gbc.gridy = i+1;
             gbc.gridx = 0;
-            jlName[i].setText(data[i][0]);
+            jlName[i].setText(trans.get("name."+data[i][0]));
             namePanel[i].add(jlName[i]);
             panel.add(namePanel[i], gbc);
 
@@ -101,8 +111,20 @@ public class ConfigureLDAPPanel extends JPanel {
             
             jbSave[i].addActionListener(new SaveParamListener(i, data[i][0], jtfValue[i]));
             
+            }
+            
         }
-        panel.setPreferredSize(new Dimension(500, (60*(i+1))));
+        gbc.gridy = i+1;
+        gbc.gridx = 0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        checkMailPanel.add(checkMail);
+        panel.add(checkMailPanel, gbc);
+        checkMail.addActionListener(new SaveParamListener("sendMail", checkMail.isSelected()));
+        //System.out.print(data[i][1]);
+        if(mailEnabled.equals("true")){
+            checkMail.setSelected(true);
+        }
+        panel.setPreferredSize(new Dimension(555, (60*(i+1))));
         this.add(panel);
         
     }
@@ -117,12 +139,29 @@ public class ConfigureLDAPPanel extends JPanel {
             this.name = name;
             this.value = jtfValue[id].getText();
         }
+        public SaveParamListener(String name, boolean checked){
+            this.id = -1;      
+            this.name = name;
+            if(checked)
+                this.value = "true";
+            else
+                this.value = "false";
+        }
         
         public void actionPerformed(ActionEvent e) {
-            this.value = jtfValue[id].getText();
+            if(id != -1)
+                this.value = jtfValue[id].getText();
+            else{
+                if(((JCheckBox)e.getSource()).isSelected())
+                    this.value = "true";
+                else
+                    this.value = "false";
+            }
+                
             System.out.print("Saving "+this.name+"="+this.value+"...");
             
-            jlName[id].setText(jlName[id].getText()+" "+trans.get("done"));
+            if(id != -1)
+                jlName[id].setText(jlName[id].getText()+" [Enregistré]");
             
             try {
             Class.forName("org.postgresql.Driver");
@@ -135,6 +174,17 @@ public class ConfigureLDAPPanel extends JPanel {
             Statement state = conn.createStatement();
             state.executeUpdate("UPDATE parameters SET value='"+this.value+"' WHERE name='"+this.name+"'");
             System.out.println(" Done");
+            if(this.name.equals("admin_password")){// si chgt de mdp admin, on envoie un mail de confirmation pour éviter les pb
+                System.out.println("Sending conf...");
+                state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ResultSet result = state.executeQuery("SELECT * FROM parameters WHERE name = 'sendMail' OR name = 'admin_email'");
+                result.next();
+                String mail = result.getObject(3).toString();
+                String message = trans.get("mail1");
+                String objet = trans.get("mail2");
+                SendMailTLS.envoyerMail(mail, objet, message);
+                System.out.println("Mail of confirmation sent to "+mail);
+            }
 
             } catch (Exception err) {
               System.out.println("ERREUR de connexion à la bdd");
@@ -142,5 +192,4 @@ public class ConfigureLDAPPanel extends JPanel {
             }
         }
    }
-    
 }

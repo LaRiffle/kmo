@@ -25,21 +25,38 @@ import javax.swing.JPasswordField;
  */
 public class AdminBoardPanel extends JPanel {
      
-    private JButton jbAccount = new JButton("Gérer les comptes");
-    private JButton jbDevice = new JButton("Gérer le matériel");
+    private JButton jbAccount;
+    private JButton jbDevice;
+    private JButton jbSettings;
+    private JButton jbLogs;
+    private static Translator trans;
     
     public AdminBoardPanel() {
+        trans = new Translator();
+        trans.setContext("text.adminBoard");
         JPanel accountPanel = new JPanel();
         JPanel devicePanel = new JPanel();
+        JPanel settingsPanel = new JPanel();
+        JPanel logsPanel = new JPanel();
         Font police = new Font("Arial", Font.PLAIN, 30);
     
+        jbDevice = new JButton(trans.get("device"));
         jbDevice.setFont(police);
         jbDevice.setPreferredSize(new Dimension(300, 60));
+        jbAccount = new JButton(trans.get("account"));
         jbAccount.setFont(police);
         jbAccount.setPreferredSize(new Dimension(300, 60));
+        jbSettings = new JButton(trans.get("settings"));
+        jbSettings.setFont(police);
+        jbSettings.setPreferredSize(new Dimension(300, 60));
+        jbLogs = new JButton(trans.get("logs"));
+        jbLogs.setFont(police);
+        jbLogs.setPreferredSize(new Dimension(300, 60));
 
         accountPanel.add(jbAccount);
         devicePanel.add(jbDevice);
+        settingsPanel.add(jbSettings);
+        logsPanel.add(jbLogs);
 		
         //Le conteneur principal
         //JPanel content = new JPanel();
@@ -67,6 +84,16 @@ public class AdminBoardPanel extends JPanel {
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.gridx = 0;	
         this.add(devicePanel, gbc);
+        
+        gbc.gridy = 2;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.gridx = 0;	
+        this.add(settingsPanel, gbc);
+        
+        gbc.gridy = 3;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.gridx = 0;	
+        this.add(logsPanel, gbc);
 
        
     }
@@ -76,6 +103,12 @@ public class AdminBoardPanel extends JPanel {
     }
     public JButton getJbDevice(){
         return jbDevice;
+    }
+    public JButton getJbSettings(){
+        return jbSettings;
+    }
+    public JButton getJbLogs(){
+        return jbLogs;
     }
     
 }

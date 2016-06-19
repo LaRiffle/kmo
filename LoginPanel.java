@@ -25,18 +25,18 @@ import javax.swing.JPasswordField;
  * @author Tleffyr
  */
 public class LoginPanel extends JPanel {
-    // Les textes à afficher
-    private String labelLogin = "Identifiants";
-    private String labelPass = "Mot de passe";
     // Les éléments de pages
-    private JTextField jtfLogin = new JTextField(labelLogin); // Champ de saisie texte
-    private JPasswordField jtfPass = new JPasswordField(labelPass); // Champ de saisie mot de passe
-    private JButton jbLogin = new JButton("Connexion"); // Bouton
+    private JTextField jtfLogin; // Champ de saisie texte
+    private JPasswordField jtfPass; // Champ de saisie mot de passe
+    private JButton jbLogin; // Bouton
     private int returnStatus = 0;
     private JLabel info = new JLabel(""); // servira pour les éventuels messsage d'erreur
+    private static Translator trans;
    
     
     public LoginPanel(boolean temoin) {
+        trans = new Translator();// on charge le dictionnaire
+        trans.setContext("text.login");// on précise l'environnement (la section du dico qu'on utilise)
         // On créé un panel pour chaque élément du formulaire pour harmoniser la mise en page
         JPanel loginPanel = new JPanel(); 
         JPanel passPanel = new JPanel();
@@ -48,18 +48,23 @@ public class LoginPanel extends JPanel {
         Color labelColor = new Color (128, 128, 128);
         Color errorColor = new Color (128, 0, 0);
         // On les affecte aux éléments du formulaire, que l'on dimensionne également
+        String labelLogin = trans.get("login");
+        jtfLogin = new JTextField(labelLogin);// on accède à un champ du dico via trans.get()
         jtfLogin.setFont(police);
         jtfLogin.setForeground(labelColor);
         jtfLogin.setPreferredSize(new Dimension(300, 60));
+        String labelPass = trans.get("password");
+        jtfPass = new JPasswordField(labelPass);
         jtfPass.setFont(police);
         jtfPass.setForeground(labelColor);
         jtfPass.setPreferredSize(new Dimension(300, 60));
         char hiddenChar = jtfPass.getEchoChar(); // 
-        jtfPass.setEchoChar((char)0); 
+        jtfPass.setEchoChar((char)0);
+        jbLogin = new JButton(trans.get("connexion"));
         jbLogin.setFont(police);
         jbLogin.setPreferredSize(new Dimension(300, 60));
         if(temoin){ // On vérifier si on est dans un passage de témoin où une connexion normale, "info" le précisera
-            info = new JLabel("Passage de témoin");
+            info = new JLabel(trans.get("temoin"));
             info.setVisible(true);
         } else {
             info.setVisible(false);

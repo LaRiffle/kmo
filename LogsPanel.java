@@ -5,29 +5,25 @@
  */
 package kmo;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JTextArea;
 
 /**
  *
  * @author Tleffyr
  */
-public class ShowDevicePanel extends JPanel {
+public class LogsPanel extends JPanel {
     
     private JButton jbAdd;
    
@@ -39,11 +35,79 @@ public class ShowDevicePanel extends JPanel {
     private JButton[] jbDel;
     private JPanel panel = new JPanel();
     private static Translator trans;
+    
+    private JTextArea textArea;
         
-    public ShowDevicePanel(String[][] data) {
+    public LogsPanel() {
         trans = new Translator();
-        trans.setContext("text.showDevice");
-        int height = 35;
+        trans.setContext("text.logs");
+ 
+        Font police = new Font("Arial", Font.PLAIN, 24);
+        JPanel[] logsPanel;
+        JLabel[] jlLogs;
+        logsPanel = new JPanel[100];
+        jlLogs = new JLabel[100];
+        
+        panel.setLayout(new GridBagLayout());		
+        //L'objet servant à positionner les composants
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.ipady = 10; gbc.gridx = 0; gbc.gridy = 0; gbc.gridheight = 1;  gbc.gridwidth = 1;
+      
+        
+        BufferedReader br = null;
+        int i = 0;
+        int j = 0;
+        String text= "";
+        try {
+            String sCurrentLine;
+            br = new BufferedReader(new FileReader("test/logs.txt"));
+            while ((sCurrentLine = br.readLine()) != null) {
+                text = text + sCurrentLine + "\n";
+                if(i==100) i=0;
+		System.out.println(sCurrentLine);
+                /*gbc.gridwidth = GridBagConstraints.REMAINDER;
+                gbc.gridy = j+1;
+                gbc.gridx = 0;
+                jlLogs[i] = new JLabel();
+                jlLogs[i].setFont(police);
+                jlLogs[i].setText(sCurrentLine);
+                logsPanel[i] =  new JPanel();
+                logsPanel[i].add(jlLogs[i]);*/
+                //panel.add(logsPanel[i], gbc);
+                i++; j++;
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+		if (br != null)br.close();
+            } catch (IOException ex) {
+		ex.printStackTrace();
+            }
+	}
+        /*panel.setPreferredSize(new Dimension(500, ((50+10)*(i+1))));
+
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(500, 400));
+        this.add(scrollPane);*/
+        
+        JScrollPane scrollPane = new JScrollPane(panel);
+        
+        textArea = new JTextArea(text);
+        scrollPane = new JScrollPane(textArea); 
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        textArea.setCaretPosition(textArea.getDocument().getLength());
+        scrollPane.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(500, 400));
+        this.add(scrollPane);
+        
+        /*int height = 35;
         int widthMarker = 120;
         int widthName = 170;
         int widthMod = 80;
@@ -132,93 +196,7 @@ public class ShowDevicePanel extends JPanel {
         gbc.gridy = i+2;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.gridx = 0;	
-        this.add(jbAdd, gbc);
-    }
-    class SaveDeviceListener implements ActionListener{
-        private int id;
-        private String marker;
-        private String name;
-        
-        public SaveDeviceListener(int id, String marker){
-            this.id = id;      
-            this.marker = marker;
-        }
-        
-        public void actionPerformed(ActionEvent e) {
-            this.name = jtfName[id].getText();
-            System.out.print("Saving device "+this.marker+"="+this.name+"...");
-            
-            jlMarker[id].setText(jlMarker[id].getText()+" [Enregistré]");
-            
-            try {
-            Class.forName("org.postgresql.Driver");
-
-            String url = "jdbc:postgresql://localhost:5432/Ecole";
-            String bdd_user = "postgres";
-            String passwd = "namibia";
-
-            Connection conn = DriverManager.getConnection(url, bdd_user, passwd);
-            Statement state = conn.createStatement();
-            state.executeUpdate("UPDATE device SET name='"+this.name+"' WHERE marker='"+this.marker+"'");
-            System.out.println(" Done");
-
-            } catch (Exception err) {
-              System.out.println("ERREUR de connexion à la bdd");
-             err.printStackTrace();
-            }
-        }
+        this.add(jbAdd, gbc);*/
     }
     
-    class RemoveDeviceListener implements ActionListener{
-        private int id;
-        private String marker;
-        private String name;
-        
-        public RemoveDeviceListener(int id, String marker){
-            this.id = id;      
-            this.marker = marker;
-        }
-        
-        public void actionPerformed(ActionEvent e) {
-            this.name = jtfName[id].getText();
-            System.out.print("Deleting "+this.marker+":"+this.name+"...");
-            //jlLogin[id].setVisible(false);
-            jlMarker[id].setText(trans.get("deleted"));
-            jtfName[id].setVisible(false);
-            jbMod[id].setVisible(false);
-            jbDel[id].setVisible(false);
-            
-            try {
-            Class.forName("org.postgresql.Driver");
-
-            String url = "jdbc:postgresql://localhost:5432/Ecole";
-            String bdd_user = "postgres";
-            String passwd = "namibia";
-
-            Connection conn = DriverManager.getConnection(url, bdd_user, passwd);
-            Statement state = conn.createStatement();
-            state.executeUpdate("DELETE FROM device WHERE marker='"+this.marker+"'");
-            System.out.println(" Done");
-
-            } catch (Exception err) {
-              System.out.println("ERREUR de connexion à la bdd");
-             err.printStackTrace();
-           }
-        
-        }
-   }
-    /*
-    public JButton getJbConf(){
-        return jbConf;
-    }*/
-    public JButton getJbAdd(){
-        return jbAdd;
-    }
-    /*
-    public JTextField getJtfLogin(){
-        return jtfLogin;
-    }
-    public JTextField getJtfPass(){
-        return jtfPass;
-    }*/
 }

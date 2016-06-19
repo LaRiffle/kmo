@@ -18,8 +18,11 @@ public class OpenHeader extends JPanel {
   private JButton textRight = new JButton();
   private JPanel headingLeft = new JPanel();
   private JPanel headingRight = new JPanel();
+  private static Translator trans;
   
   public OpenHeader(String title){
+      trans = new Translator();
+      trans.setContext("text.open");
       this.setLayout(new BorderLayout());
       Font police = new Font("Arial", Font.PLAIN, 50);
       Font police2 = new Font("Arial", Font.PLAIN, 24);
@@ -28,7 +31,7 @@ public class OpenHeader extends JPanel {
       //textLeft.setHorizontalAlignment(JLabel.RIGHT);
       textLeft.setPreferredSize(new Dimension(320, 100));
       textLeft.setForeground(Color.white);  
-      textRight = new JButton("Déconnexion");
+      textRight = new JButton(trans.get("logout"));
       textRight.setFont(police2);
       //textRight.setHorizontalAlignment(JLabel.LEFT);
       textRight.setPreferredSize(new Dimension(195, 50));
